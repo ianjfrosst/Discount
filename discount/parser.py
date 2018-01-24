@@ -54,7 +54,7 @@ def parse2(file_in, file_out):
                 lineFormats.remove(form)
 
         if line.splitlines()[0] == "---":
-            print("<hr/>")
+            file_out.write("<hr/>")
             n_last_lf = 0
             continue;
 
@@ -88,7 +88,7 @@ def parse2(file_in, file_out):
         for c in line:
             if escape > 0:
                 escape -= 1
-                print(c, end="")
+                file_out.write(c)
                 continue
 
             if c == token:
@@ -111,7 +111,7 @@ def parse2(file_in, file_out):
                     token = c
                     count = 1
                 else:
-                    print (c, end="")
+                    file_out.write(c)
 
         n_last_lf = len(lineFormats)
         for form in lineFormats:

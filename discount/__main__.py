@@ -17,6 +17,9 @@ if __name__ == "__main__":
     file_out = open(args.outfile, 'w') if args.outfile else sys.stdout
     discount.parser.parse(file_in, file_out)
 
+    file_in.close()
+    file_out.close()
+
 
 else:
     raise Exception("Error: imported __main__ as module")

@@ -53,7 +53,7 @@ In the words of [this one guy, Steve] (https://en.wikipedia.org/wiki/Jaywick):
 
 (Emphasis mine)
 
-#GitHub specific syntax
+# GitHub specific syntax
 
 - [ ] Be productive
 - [ ] Take over world

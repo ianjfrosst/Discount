@@ -47,13 +47,13 @@ The text here is of __ _utmost_ __ importance.
    1. Three, sir.
    1. Three!
 
-In the words of [this one guy, Steve] (https://en.wikipedia.org/wiki/Jaywick):
+In the words of [this one guy, Steve](https://en.wikipedia.org/wiki/Jaywick):
 
 > This is a quotation, with _no real importance whatsoever_ in its content.
 
 (Emphasis mine)
 
-#GitHub specific syntax
+## GitHub specific syntax
 
 - [ ] Be productive
 - [ ] Take over world

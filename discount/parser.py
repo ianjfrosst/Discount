@@ -39,7 +39,7 @@ def parse2(file_in, file_out):
         token = "\0"
         count = 0
 
-        if line == "":
+        if line.splitlines()[0] == "":
             # Remove all formatting
             for form in formats:
                 file_out.write("</" + form + ">")
@@ -47,7 +47,7 @@ def parse2(file_in, file_out):
             for form in lineFormats:
                 file_out.write("</" + form + ">")
                 lineFormats.remove(form)
-            file_out.write("<br>")
+            #file_out.write("<br>")
 
 
         header = re.match(r'#+ ', line)
@@ -59,6 +59,10 @@ def parse2(file_in, file_out):
         if line.startswith("- ") or line.startswith("* "):
             lineFormats.append(line_format_from_token("-", 1))
             line = line[2:]
+            if "ul" not in formats:
+                formats.append("ul")
+                print("<" + "ul" + ">", end="")
+
 
         if line.startswith("> "):
             lineFormats.append(line_format_from_token(">", 1))

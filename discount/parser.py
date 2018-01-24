@@ -27,6 +27,8 @@ def line_format_from_token(token, count):
         return "h"+str(count)
 
 
+def tag(name, close=False):
+    return '<{1}{0}>'.format(name, '/' if close else '')
 
 def parse2(file_in, file_out):
     # List of all patterns currently enabled
@@ -43,12 +45,12 @@ def parse2(file_in, file_out):
         if line.splitlines()[0] == "":
             # Remove all formatting
             for form in formats:
-                print("</" + form + ">", end="")
+                file_out.write(tag(form, True))
                 formats.remove(form)
             if n_last_lf == 0:
-                print("<br>",end="")
+                file_out.write("<br/>")
             for form in lineFormats:
-                print("</" + form + ">", end="")
+                file_out.write(tag(form, True))
                 lineFormats.remove(form)
 
         if line.splitlines()[0] == "---":
@@ -68,22 +70,21 @@ def parse2(file_in, file_out):
             line = line[2:]
             if "ul" not in formats:
                 formats.append("ul")
-                print("<" + "ul" + ">", end="")
+                file_out.write(tag("ul"))
 
 
         if line.startswith("> "):
             lineFormats.append(line_format_from_token(">", 1))
             line = line[2:]
             for form in formats:
-                print("</" + form + ">", end="")
+                file_out.write(tag(form, True))
                 formats.remove(form)
 
 
         for form in lineFormats:
-            print("<" + form + ">", end="")
+            file_out.write(tag(form))
 
         escape = 0
-        #print (line)
         for c in line:
             if escape > 0:
                 escape -= 1
@@ -95,11 +96,11 @@ def parse2(file_in, file_out):
             else :
                 if token != "\0":
                     form = format_from_token(token, count)
-                    if form in formats :
-                        print ("</"+form+">", end="")
+                    if form in formats:
+                        file_out.write(tag(form, True))
                         formats.remove(form)
-                    else :
-                        print ("<"+form+">", end="")
+                    else:
+                        file_out.write(tag(form))
                         formats.append(form)
 
                     token = "\0"
@@ -114,5 +115,5 @@ def parse2(file_in, file_out):
 
         n_last_lf = len(lineFormats)
         for form in lineFormats:
-            print("</" + form + ">", end="")
+            file_out.write(tag(form, True))
             lineFormats.remove(form)

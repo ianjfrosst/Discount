@@ -50,6 +50,14 @@ _italics_
 
 bold**words**in**the**middle
 
+###
+newline headings
+
+inline `code`
+
+    code
+    blocks
+
 1. One
    - Onety-one
      - Onety-onety-one

@@ -1,14 +1,22 @@
 #!/usr/bin/env python3
 
 import sys
-import discount
+import argparse
+import discount.parser
 
 if __name__ == "__main__":
     print("Version:", sys.version)
-    d = dir(discount)
-    print(d)
-    for i in d:
-        print(i, ":", getattr(discount, i))
+
+    arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument('--infile', '-i', default='tests/test.md')
+    arg_parser.add_argument('--outfile', '-o', default='tests/test.html')
+
+    args = arg_parser.parse_args()
+
+    file_in = open(args.infile, 'r')
+    file_out = open(args.outfile, 'w')
+    discount.parser.parse(file_in, file_out)
+
 
 else:
     raise Exception("Error: imported __main__ as module")

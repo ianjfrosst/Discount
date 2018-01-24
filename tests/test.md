@@ -53,10 +53,12 @@ In the words of [this one guy, Steve](https://en.wikipedia.org/wiki/Jaywick):
 
 (Emphasis mine)
 
+> > > Nested quotes
+
 ## GitHub specific syntax
 
 - [ ] Be productive
 - [ ] Take over world
 - [x] Play video games
 
-\*this is a **COMMENT**, whose syntax rules should be ignored!\*
+text with literal stars \* \*, literal hashes \# \#

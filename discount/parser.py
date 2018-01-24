@@ -1,6 +1,6 @@
 
-import sys
 import re
+import sys
 
 def parse(file_in, file_out):
     parse2(file_in, file_out)
@@ -14,17 +14,17 @@ def format_from_token(token, count):
             return "b"
         if count == 1:
             return "i"
-    if token == "#" :
-        return "h"+str(count)
+    if token == "#":
+        return "h" + str(count)
     return ""
 
 def line_format_from_token(token, count):
-    if token == ">" :
+    if token == ">":
         return "blockquote"
     if token == "*" or token == "-":
         return "li"
-    if token == "#" :
-        return "h"+str(count)
+    if token == "#":
+        return "h" + str(count)
 
 
 
@@ -42,65 +42,65 @@ def parse2(file_in, file_out):
         if line == "":
             # Remove all formatting
             for form in formats:
-                print("</" + form + ">", end="")
+                file_out.write("</" + form + ">")
                 formats.remove(form)
             for form in lineFormats:
-                print("</" + form + ">", end="")
+                file_out.write("</" + form + ">")
                 lineFormats.remove(form)
-            print("<br>",end="")
+            file_out.write("<br>")
 
 
         header = re.match(r'#+ ', line)
-        if (header) :
+        if header:
             start, end = header.span()
             line = line[end:]
             lineFormats.append(line_format_from_token("#", end-1))
 
         if line.startswith("- ") or line.startswith("* "):
-            lineFormats.append(line_format_from_token("-",1))
+            lineFormats.append(line_format_from_token("-", 1))
             line = line[2:]
 
         if line.startswith("> "):
             lineFormats.append(line_format_from_token(">", 1))
             line = line[2:]
             for form in formats:
-                print("</" + form + ">", end="")
+                file_out.write("</" + form + ">")
                 formats.remove(form)
 
 
         for form in lineFormats:
-            print("<" + form + ">", end="")
+            file_out.write("<" + form + ">")
 
         escape = 0
         #print (line)
         for c in line:
             if escape > 0:
                 escape -= 1
-                print(c, end="")
+                file_out.write(c)
                 continue
 
             if c == token:
                 count += 1
-            else :
+            else:
                 if token != "\0":
                     form = format_from_token(token, count)
-                    if form in formats :
-                        print ("</"+form+">", end="")
+                    if form in formats:
+                        file_out.write("</"+form+">")
                         formats.remove(form)
-                    else :
-                        print ("<"+form+">", end="")
+                    else:
+                        file_out.write("<"+form+">")
                         formats.append(form)
 
                     token = "\0"
 
-                if c == "\\" :
+                if c == "\\":
                     escape += 1
-                elif c == "*" or c == "_" :
+                elif c == "*" or c == "_":
                     token = c
                     count = 1
                 else:
-                    print (c, end="")
+                    file_out.write(c)
 
         for form in lineFormats:
-            print("</" + form + ">", end="")
+            file_out.write("</" + form + ">")
             lineFormats.remove(form)

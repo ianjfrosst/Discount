@@ -9,12 +9,12 @@ if __name__ == "__main__":
 
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument('--infile', '-i', default='tests/test.md')
-    arg_parser.add_argument('--outfile', '-o', default='tests/test.html')
+    arg_parser.add_argument('--outfile', '-o')
 
     args = arg_parser.parse_args()
 
     file_in = open(args.infile, 'r')
-    file_out = open(args.outfile, 'w')
+    file_out = open(args.outfile, 'w') if args.outfile else sys.stdout
     discount.parser.parse(file_in, file_out)
 
 

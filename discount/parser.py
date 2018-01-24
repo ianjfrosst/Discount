@@ -8,7 +8,7 @@ def parse(file_in, file_out):
 
 def parse_line (line):
     # let's match beginning-of-line elements
-    head = re.match(r'#+\ ?', line) # look for headings
+    head = re.match(r'#+\ *', line) # look for headings
     quote = re.match(r'(>\ *)+', line) # look for quotes
     if head: print(head)
     if quote: print(quote)

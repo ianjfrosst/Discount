@@ -73,6 +73,12 @@ def parse2(file_in, file_out):
                 formats.append("ul")
                 file_out.write(tag("ul"))
 
+        if line.startswith("1. "):
+            lineFormats.append(line_format_from_token("-", 1))
+            line = line[3:]
+            if "ol" not in formats:
+                formats.append("ol")
+                file_out.write(tag("ol"))
 
         if line.startswith("> "):
             lineFormats.append(line_format_from_token(">", 1))

@@ -72,6 +72,12 @@ inline `code`
    1. This is another element of the list
       1. This is a more nested element of a list
    1. But wait, there's more!
+1. This is another element of an ordered list
+1. This is another element of an ordered list
+1. This is another element of an ordered list
+1. This is another element of an ordered list
+1. This is another element of an ordered list
+1. This is another element of an ordered list
 - This is a bulleted list now.
    5. This is an incorrectly numbered element.
    1. Three, sir.

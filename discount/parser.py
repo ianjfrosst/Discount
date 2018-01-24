@@ -14,17 +14,16 @@ def format_from_token(token, count):
             return "b"
         if count == 1:
             return "i"
-    if token == "#" :
-        return "h"+str(count)
-    return ""
+
 
 def line_format_from_token(token, count):
     if token == ">" :
         return "blockquote"
     if token == "*" or token == "-":
         return "li"
-    if token == "#" :
-        return "h"+str(count)
+    if token == "#":
+        if count < 7:
+            return "h"+str(count)
 
 
 def tag(name, close=False):
@@ -63,7 +62,9 @@ def parse2(file_in, file_out):
         if (header) :
             start, end = header.span()
             line = line[end:]
-            lineFormats.append(line_format_from_token("#", end-1))
+            f = line_format_from_token("#", end-1)
+            if f :
+                lineFormats.append(f)
 
         if line.startswith("- ") or line.startswith("* "):
             lineFormats.append(line_format_from_token("-",1))

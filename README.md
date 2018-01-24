@@ -3,6 +3,7 @@ Markdown parser in Python
 
 Implements (a subset) of GitHub-Flavoured Markdown:
 
-Refernces:
+References:
+
 * [GFM Spec](https://github.github.com/gfm/)
 * [Markdown Spec](https://daringfireball.net/projects/markdown/syntax)

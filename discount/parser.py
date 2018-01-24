@@ -4,7 +4,7 @@ import sys
 def parse(file_in, file_out):
     for line in file_in:
         parseLine(line)
-    
+
 def parseLine (line) :
     headingDepth = 0
     

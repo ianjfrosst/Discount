@@ -34,6 +34,22 @@ The text here is of __ _utmost_ __ importance.
 
 - So is this.
 
+
+* this is a bullet point with a star *
+
+*this is italic text *
+
+
+**
+valid bold text.
+still bold
+and again
+**
+
+_italics_
+
+bold**words**in**the**middle
+
 1. One
    - Onety-one
      - Onety-onety-one

@@ -3,73 +3,104 @@ import sys
 import re
 
 def parse(file_in, file_out):
+    parse2(file_in, file_out)
+    #for line in file_in:
+    #    parse_line(line)
+
+
+def format_from_token(token, count):
+    if token == "*" or token == "_":
+        if count == 2:
+            return "b"
+        if count == 1:
+            return "i"
+    if token == "#" :
+        return "h"+str(count)
+    return ""
+
+def line_format_from_token(token, count):
+    if token == ">" :
+        return "blockquote"
+    if token == "*" or token == "-":
+        return "li"
+    if token == "#" :
+        return "h"+str(count)
+
+
+
+def parse2(file_in, file_out):
+    # List of all patterns currently enabled
+    formats = []
+    lineFormats = []
+
+
     for line in file_in:
-        parse_line(line)
+        line.rstrip()
+        token = "\0"
+        count = 0
 
-def parse_line (line):
-    # let's match beginning-of-line elements
-    head = re.match(r'#+\ *', line) # look for headings
-    quote = re.match(r'(>\ *)+', line) # look for quotes
-    if head: print(head)
-    if quote: print(quote)
-
-    heading_depth = 0
-
-    if line.startswith("-") or line.startswith("*"):
-        print("BULLET")
-
-    elif line.startswith("#"):
-        heading_depth = 0
-        for a in line:
-            if a == "#":
-                heading_depth += 1
-            else:
-                break
-        print("Heading, rank", heading_depth)
-        line = line[heading_depth+1:]
-
-    lToken = "\0"
-    tCount = 0
-
-    isComment = False
-
-    def get_tag(token,count):
-        if token == "*" or token == "_":
-            if count == 2:
-                return "<b>"
+        if line == "":
+            # Remove all formatting
+            for form in formats:
+                print("</" + form + ">", end="")
+                formats.remove(form)
+            for form in lineFormats:
+                print("</" + form + ">", end="")
+                lineFormats.remove(form)
+            print("<br>",end="")
 
 
-    for c in line:
-        # Found a *; we're either
-        
-        if c == lToken:
-            tCount += 1
-        else:
-            tCount = 0
-        
-        if c == "\\":
-            isComment = not isComment
-            lToken = "\0"
-            tCount = 0
-        
-        if not isComment:
-            if c == "*":
-                if lToken == c:
-                    tCount += 1
+        header = re.match(r'#+ ', line)
+        if (header) :
+            start, end = header.span()
+            line = line[end:]
+            lineFormats.append(line_format_from_token("#", end-1))
+
+        if line.startswith("- ") or line.startswith("* "):
+            lineFormats.append(line_format_from_token("-",1))
+            line = line[2:]
+
+        if line.startswith("> "):
+            lineFormats.append(line_format_from_token(">", 1))
+            line = line[2:]
+            for form in formats:
+                print("</" + form + ">", end="")
+                formats.remove(form)
+
+
+        for form in lineFormats:
+            print("<" + form + ">", end="")
+
+        escape = 0
+        #print (line)
+        for c in line:
+            if escape > 0:
+                escape -= 1
+                print(c, end="")
+                continue
+
+            if c == token:
+                count += 1
+            else :
+                if token != "\0":
+                    form = format_from_token(token, count)
+                    if form in formats :
+                        print ("</"+form+">", end="")
+                        formats.remove(form)
+                    else :
+                        print ("<"+form+">", end="")
+                        formats.append(form)
+
+                    token = "\0"
+
+                if c == "\\" :
+                    escape += 1
+                elif c == "*" or c == "_" :
+                    token = c
+                    count = 1
                 else:
-                    tCount = 0
-                lToken = c
-            elif c == "_":
-                if lToken == c:
-                    tCount += 1
-                else:
-                    tCount = 0
-                lToken = c
-            
-            if lToken == "*" or lToken == "_":
-                if tCount == 1:
-                    print("<b>")
-                if tCount == 2:
-                    print("<i>")
+                    print (c, end="")
 
-    print(line, end="")
+        for form in lineFormats:
+            print("</" + form + ">", end="")
+            lineFormats.remove(form)

@@ -26,6 +26,8 @@ The text here is of ** *utmost* ** importance.
 
 The text here is of __ _utmost_ __ importance.
 
+## These are all seperate lists
+---
 * This is a bullet point
 
 * This is a bullet point with *italicized content*
@@ -34,7 +36,11 @@ The text here is of __ _utmost_ __ importance.
 
 - So is this.
 
-
+## This is a single list
+---
+- Hello
+- How are you?
+- I've been wondering if....
 * this is a bullet point with a star *
 
 *this is italic text *

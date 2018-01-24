@@ -32,7 +32,8 @@ def parse2(file_in, file_out):
     # List of all patterns currently enabled
     formats = []
     lineFormats = []
-
+    status = []
+    n_last_lf = 0
 
     for line in file_in:
         line.rstrip()
@@ -44,10 +45,16 @@ def parse2(file_in, file_out):
             for form in formats:
                 print("</" + form + ">", end="")
                 formats.remove(form)
+            if n_last_lf == 0:
+                print("<br>",end="")
             for form in lineFormats:
                 print("</" + form + ">", end="")
                 lineFormats.remove(form)
-            #print("<br>",end="")
+
+        if line.splitlines()[0] == "---":
+            print("<hr/>")
+            n_last_lf = 0
+            continue;
 
 
         header = re.match(r'#+ ', line)
@@ -105,6 +112,7 @@ def parse2(file_in, file_out):
                 else:
                     print (c, end="")
 
+        n_last_lf = len(lineFormats)
         for form in lineFormats:
             print("</" + form + ">", end="")
             lineFormats.remove(form)
